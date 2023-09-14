@@ -1,0 +1,42 @@
+version: "3.0"
+
+services:
+  server:
+    container_name: server
+    image: pfp-it-consulting/extreme-kadence-server:$VERSION
+    restart: always
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+    depends_on:
+      - cache
+    ports:
+      - "$PORT:$PORT"
+    networks:
+      -  extreme-kadence-network
+    volumes:
+      - ./app:/app
+    working_dir: /
+    env_file:
+      - .env
+    command: bash -c "uvicorn app.server:server --host 0.0.0.0 --port $PORT --reload"
+  
+  cache:
+    container_name: cache
+    image: redis:7.2.1-alpine
+    restart: always
+    networks:
+      -  extreme-kadence-network
+    ports:
+      - "$REDIS_PORT:$REDIS_PORT"
+    volumes:
+      - redis-data:/data
+    command: redis-server --port $REDIS_PORT
+
+networks:
+  extreme-kadence-network:
+    driver: bridge
+
+volumes:
+  redis-data:
+    driver: local
