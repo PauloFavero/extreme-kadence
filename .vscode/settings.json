@@ -1,9 +1,0 @@
-{
-    "python.analysis.typeCheckingMode": "basic",
-    "python.autoComplete.extraPaths": [
-        "${workspaceFolder}/app"
-    ],
-    "python.analysis.extraPaths": [
-        "${workspaceFolder}/app"
-    ]
-}
