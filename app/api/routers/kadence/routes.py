@@ -1,11 +1,10 @@
 """Kadence Router Configuration"""
 
-from typing import Union
 from http import HTTPStatus
 from datetime import datetime
 
 import requests
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter
 
 from domain.models.kadence.authentication import KadenceAuthToken
 from domain.models.kadence.booking_check_in import AccessMethod
