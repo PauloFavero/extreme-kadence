@@ -32,7 +32,7 @@ def get_cached_token_data() -> Union[KadenceAuthToken, None]:
 def validate_expiration_token(token: KadenceAuthToken) -> bool:
     curr_time = int(time())
     expires_in = int(token.expires_in)
-    if curr_time < expires_in - 60:
+    if curr_time < expires_in:
         return True
 
     return False
@@ -54,7 +54,6 @@ def kadence_auth() -> KadenceAuthToken:
     cached_token = get_cached_token_data()
 
     if cached_token and validate_expiration_token(cached_token):
-        print("Using cached token", cached_token)
         return cached_token
 
     else:
@@ -64,7 +63,7 @@ def kadence_auth() -> KadenceAuthToken:
 
             redis.set("kadence_token", token.access_token)
             redis.set("kadence_token_type", token.token_type)
-            redis.set("kadence_token_expires_in", token.expires_in)
+            redis.set("kadence_token_expires_in", token.expires_in + int(time()) - 60)
             return token
 
         except Exception as error:
@@ -75,5 +74,4 @@ def kadence_auth() -> KadenceAuthToken:
             redis.delete("kadence_token")
             redis.delete("kadence_token_type")
             redis.delete("kadence_token_expires_in")
-
             raise error
