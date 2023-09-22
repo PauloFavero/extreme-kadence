@@ -50,7 +50,7 @@ def request_auth_token() -> Tuple[HTTPStatus, KadenceAuthToken]:
     raise Exception(KadenceAuthError(**response.json()))
 
 
-def get_auth_token() -> KadenceAuthToken:
+def kadence_auth() -> KadenceAuthToken:
     cached_token = get_cached_token_data()
 
     if cached_token and validate_expiration_token(cached_token):

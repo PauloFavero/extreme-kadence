@@ -6,10 +6,8 @@ from datetime import datetime
 import requests
 from fastapi import APIRouter
 
-from domain.models.kadence.authentication import KadenceAuthToken
-from domain.models.kadence.booking_check_in import AccessMethod
-
-from usecases.kadence.req_auth_token import get_auth_token
+from domain.models.kadence import KadenceAuthToken, AccessMethod
+from usecases import kadence_auth
 
 
 kadence_router = APIRouter(
@@ -22,7 +20,7 @@ BASE_URL = "https://api.onkadence.co/v1/public"
 
 @kadence_router.get("/auth", status_code=HTTPStatus.OK)
 def request_auth_token() -> KadenceAuthToken:
-    token = get_auth_token()
+    token = kadence_auth()
     return token
 
 
@@ -32,7 +30,7 @@ def request_auth_token() -> KadenceAuthToken:
 )
 def get_user():
     print(f"{datetime.now()} - GET /user")
-    token = get_auth_token()
+    token = kadence_auth()
     user = requests.get(
         f"{BASE_URL}/users?email=phfaverop@gmail.com",
         headers={"Authorization": f"{token.token_type} {token.access_token}"},
@@ -46,7 +44,7 @@ def get_user():
 )
 def get_user_bookings(user_id: str):
     print(f"{datetime.now()} - GET /users/{user_id}/bookings")
-    token = get_auth_token()
+    token = kadence_auth()
     bookings = requests.get(
         f"{BASE_URL}/users/{user_id}/bookings",
         headers={"Authorization": f"{token.token_type} {token.access_token}"},
@@ -60,7 +58,7 @@ def get_user_bookings(user_id: str):
 )
 def checkin_user(booking_id: str, user_id: str):
     print(f"{datetime.now()} - POST /user/bookings/{booking_id}/checkin")
-    token = get_auth_token()
+    token = kadence_auth()
     checkin = requests.post(
         f"{BASE_URL}/bookings/{booking_id}/check-in",
         headers={"Authorization": f"{token.token_type} {token.access_token}"},
