@@ -54,7 +54,8 @@ def get_user_bookings(user_id: str, token: KadenceAuthToken = Depends(kadence_au
     "/user/bookings/{booking_id}/checkin",
     status_code=HTTPStatus.OK,
 )
-def checkin_user(booking_id: str, user_id: str, , token: KadenceAuthToken = Depends(kadence_auth)):
+def checkin_user(booking_id: str, user_id: str,
+                 token: KadenceAuthToken = Depends(kadence_auth)):
     print(f"{datetime.now()} - POST /user/bookings/{booking_id}/checkin")
     checkin = requests.post(
         f"{BASE_URL}/bookings/{booking_id}/check-in",
