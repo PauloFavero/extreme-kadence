@@ -6,23 +6,20 @@ The Redis is used to store the access token and refresh token of the
 Kadence API.
 
 """
-
-import os
-
 import redis
 
+from config import environment
 
 class RedisSingleton:
     _instance = None
 
     def __new__(cls):
         if cls._instance is None:
-            host = os.getenv("REDIS_HOST", "localhost")
-            port = int(os.getenv("REDIS_PORT", 6379))
-            db = int(os.getenv("REDIS_DB", 0))
 
             cls._instance = super(RedisSingleton, cls).__new__(cls)
-            cls._instance.initialize_redis_connection(host, port, db)
+            cls._instance.initialize_redis_connection(environment.redis.host, 
+                                                      environment.redis.port, 
+                                                      environment.redis.db)
         return cls._instance
 
     def initialize_redis_connection(self, host, port, db):

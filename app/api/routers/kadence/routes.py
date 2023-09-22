@@ -15,7 +15,7 @@ from usecases.kadence.req_auth_token import get_auth_token
 
 kadence_router = APIRouter(
     prefix="/kadence",
-    tags=["Kadence routes"],
+    tags=["Kadence Integration"],
 )
 
 BASE_URL = "https://api.onkadence.co/v1/public"

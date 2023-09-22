@@ -1,6 +1,6 @@
 import time
 
-from server import server
+from api import server
 from http import HTTPStatus
 from fastapi import Request, HTTPException
 

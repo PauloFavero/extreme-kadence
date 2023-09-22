@@ -1,4 +1,3 @@
-import os
 from typing import Union, Tuple
 import requests
 from http import HTTPStatus
@@ -10,13 +9,9 @@ from domain.models.kadence.authentication import (
     KadenceAuthError,
 )
 from infra.redis import RedisSingleton as Redis
+from config import environment
 
-login_url = os.getenv(
-    "KADENCE_LOGIN_ENDPOINT", "https://login.onkadence.co/oauth2/token"
-)
-client_id = os.getenv("KADENCE_IDENTIFIER", "")
-client_secret = os.getenv("KADENCE_SECRET", "")
-
+kadence_config = environment.kadence
 
 def get_cached_token_data() -> Union[KadenceAuthToken, None]:
     redis = Redis()
@@ -44,8 +39,10 @@ def validate_expiration_token(token: KadenceAuthToken) -> bool:
 
 
 def request_auth_token() -> Tuple[HTTPStatus, KadenceAuthToken]:
-    body_req = KadenceAuthTokenBodyReq(client_id=client_id, client_secret=client_secret)
-    response = requests.post(url=login_url, data=body_req.model_dump())
+    body_req = KadenceAuthTokenBodyReq(client_id=kadence_config.identifier, 
+                                       client_secret=kadence_config.secret)
+    response = requests.post(url=kadence_config.login_endpoint,
+                             data=body_req.model_dump())
 
     if response.status_code == HTTPStatus.OK:
         return HTTPStatus.OK, KadenceAuthToken(**response.json())
