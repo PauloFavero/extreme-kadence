@@ -1,0 +1,1 @@
+from .kadence.auth_repo import AuthenticationRepoProtocol

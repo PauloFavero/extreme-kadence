@@ -10,6 +10,7 @@ import redis
 
 from config import environment
 
+
 class RedisSingleton:
     _instance = None
 
@@ -17,12 +18,12 @@ class RedisSingleton:
         if cls._instance is None:
 
             cls._instance = super(RedisSingleton, cls).__new__(cls)
-            cls._instance.initialize_redis_connection(environment.redis.host, 
+            cls._instance.initialize(environment.redis.host, 
                                                       environment.redis.port, 
                                                       environment.redis.db)
         return cls._instance
 
-    def initialize_redis_connection(self, host, port, db):
+    def initialize(self, host, port, db):
         self.redis_client = redis.StrictRedis(host=host, port=port, db=db)
 
     def set(self, key, value, ex=None):
