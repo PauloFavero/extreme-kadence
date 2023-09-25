@@ -8,8 +8,6 @@ from fastapi import APIRouter, Depends
 from api.factories.kadence.auth_factory import kadence_auth_controller_factory
 
 from domain.entities.kadence import KadenceAuthToken, CheckInMethod
-from usecases import kadence_auth
-
 
 kadence_router = APIRouter(
     prefix="/kadence",
