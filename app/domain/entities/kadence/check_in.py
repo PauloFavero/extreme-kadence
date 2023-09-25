@@ -6,3 +6,4 @@ class CheckInMethod(Enum):
     WIFI = "wifi"
     GEOFENCE = "front_desk"
     SENSOR = "sensor"
+    UNKNOWN = "unknown"

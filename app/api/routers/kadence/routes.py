@@ -2,10 +2,12 @@
 
 from http import HTTPStatus
 from datetime import datetime
+from typing import List
 
 import requests
 from fastapi import APIRouter, Depends
 from api.factories.kadence.auth_factory import kadence_auth_controller_factory
+from domain.entities.kadence.booking import Booking
 
 from domain.entities.kadence import KadenceAuthToken, CheckInMethod
 
@@ -42,21 +44,27 @@ def get_user(token: KadenceAuthToken = Depends(auth_controller.handle)):
     "/user/bookings/{user_id}",
     status_code=HTTPStatus.OK,
 )
-def get_user_bookings(user_id: str, token: KadenceAuthToken = Depends(auth_controller.handle)):
+def get_user_bookings(
+    user_id: str, token: KadenceAuthToken = Depends(auth_controller.handle)
+) -> List[Booking]:
     print(f"{datetime.now()} - GET /users/{user_id}/bookings")
     bookings = requests.get(
         f"{BASE_URL}/users/{user_id}/bookings",
         headers={"Authorization": f"{token.token_type} {token.access_token}"},
     )
-    return bookings.json()
+
+    return bookings.json().get("hydra:member", [])
 
 
 @kadence_router.post(
     "/user/bookings/{booking_id}/checkin",
     status_code=HTTPStatus.OK,
 )
-def checkin_user(booking_id: str, user_id: str,
-                 token: KadenceAuthToken = Depends(auth_controller.handle)):
+def checkin_user(
+    booking_id: str,
+    user_id: str,
+    token: KadenceAuthToken = Depends(auth_controller.handle),
+):
     print(f"{datetime.now()} - POST /user/bookings/{booking_id}/checkin")
     checkin = requests.post(
         f"{BASE_URL}/bookings/{booking_id}/check-in",
