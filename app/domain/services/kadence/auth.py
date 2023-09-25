@@ -1,12 +1,8 @@
 from time import time
-from http import HTTPStatus
-from traceback import print_tb
-from typing import Union, Any
-from pydantic import InstanceOf
+from typing import Optional
 
-import requests
 from config.kadence import KadenceSettings
-from domain.protocols.controller import Controller
+from domain.protocols.auth_middleware import AuthMiddleware
 from domain.protocols.kadence.auth_http import AuthenticationHttpProtocol
 from domain.protocols.kadence.auth_repo import AuthenticationRepoProtocol
 
@@ -15,11 +11,14 @@ from domain.entities.kadence import (
     KadenceAuthError,
 )
 
-class KadenceAuthService(Controller):
-    def __init__(self, 
-                 repo: AuthenticationRepoProtocol, 
-                 requester: AuthenticationHttpProtocol, 
-                 config: KadenceSettings) -> None:
+
+class KadenceAuthService(AuthMiddleware):
+    def __init__(
+        self,
+        repo: AuthenticationRepoProtocol,
+        requester: AuthenticationHttpProtocol,
+        config: KadenceSettings,
+    ) -> None:
         self.repo = repo
         self.requester = requester
         self.config = config
@@ -32,9 +31,7 @@ class KadenceAuthService(Controller):
 
         return False
 
-    async def handle(self, request: Any = None) -> Union[KadenceAuthToken, 
-                                                        KadenceAuthError, 
-                                                        None]:
+    async def handle(self) -> Optional[KadenceAuthToken | KadenceAuthError]:
         cached_token = await self.repo.get_cached_token()
 
         if cached_token and self.__validate_token_expiration(cached_token):
@@ -42,12 +39,10 @@ class KadenceAuthService(Controller):
 
         else:
             token = await self.requester.get_token()
-            
+
             if isinstance(token, KadenceAuthToken):
                 self.repo.persist(token)
             else:
-                print(
-                    "Error while fetching Kadence token: ", token
-                )
+                print("Error while fetching Kadence token: ", token)
                 self.repo.delete()
             return token
