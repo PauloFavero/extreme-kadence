@@ -16,15 +16,16 @@ class RedisSingleton:
 
     def __new__(cls):
         if cls._instance is None:
-
             cls._instance = super(RedisSingleton, cls).__new__(cls)
-            cls._instance.initialize(environment.redis.host, 
-                                                      environment.redis.port, 
-                                                      environment.redis.db)
+            cls._instance.initialize(
+                environment.redis.host, environment.redis.port, environment.redis.db
+            )
         return cls._instance
 
     def initialize(self, host, port, db):
-        self.redis_client = redis.StrictRedis(host=host, port=port, db=db)
+        self.redis_client = redis.StrictRedis(
+            host=host, port=port, db=db, decode_responses=True
+        )
 
     def set(self, key, value, ex=None):
         return self.redis_client.set(key, value, ex=ex)
