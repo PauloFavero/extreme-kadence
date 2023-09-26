@@ -22,8 +22,9 @@ class KadenceAuthRequester(AuthenticationHttpProtocol):
             client_id=self.__config.identifier, client_secret=self.__config.secret
         )
 
-        response = self.__session.post(url=self.__config.login_endpoint,
-                                                    data=body_req.model_dump())
+        response = self.__session.post(
+            url=self.__config.login_endpoint, data=body_req.model_dump()
+        )
 
         if response.status_code == HTTPStatus.OK:
             return KadenceAuthToken(**response.json())

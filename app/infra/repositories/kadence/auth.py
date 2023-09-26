@@ -1,16 +1,14 @@
-
-import time
+from time import time
 from domain.entities.kadence.auth import KadenceAuthToken
 from domain.protocols.kadence.auth_repo import AuthenticationRepoProtocol
 from infra.databases.redis import RedisSingleton
 
 
 class KadenceAuthRepo(AuthenticationRepoProtocol):
-
     def __init__(self, db: RedisSingleton) -> None:
         super().__init__()
         self.__db = db
-    
+
     async def persist(self, token: KadenceAuthToken) -> None:
         self.__db.set("kadence_token", token.access_token)
         self.__db.set("kadence_token_type", token.token_type)
@@ -27,9 +25,9 @@ class KadenceAuthRepo(AuthenticationRepoProtocol):
         expires_in = self.__db.get("kadence_token_expires_in")
         if access_token and token_type and expires_in:
             return KadenceAuthToken(
-                access_token=str(access_token),
-                token_type=str(token_type),
-                expires_in=int(expires_in.decode("utf-8")),
+                access_token=access_token,
+                token_type=token_type,
+                expires_in=expires_in,
             )
 
         return None
