@@ -28,7 +28,6 @@ class KadenceAuthService(AuthMiddleware):
         expires_in = int(token.expires_in)
         if curr_time < expires_in:
             return True
-
         return False
 
     async def handle(self) -> Optional[KadenceAuthToken | KadenceAuthError]:
@@ -36,12 +35,11 @@ class KadenceAuthService(AuthMiddleware):
 
         if cached_token and self.__validate_token_expiration(cached_token):
             return cached_token
-
         else:
             token = await self.requester.get_token()
 
             if isinstance(token, KadenceAuthToken):
-                self.repo.persist(token)
+                await self.repo.persist(token)
             else:
                 print("Error while fetching Kadence token: ", token)
                 self.repo.delete()
