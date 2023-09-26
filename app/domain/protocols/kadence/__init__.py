@@ -1,1 +1,2 @@
-from .auth_repo import AuthenticationRepoProtocol
+from .authentication.auth_repo import AuthenticationRepoProtocol
+from .authentication.auth_http import AuthenticationHttpProtocol

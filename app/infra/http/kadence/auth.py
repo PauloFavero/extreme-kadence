@@ -8,7 +8,7 @@ from domain.entities.kadence.auth import (
     KadenceAuthToken,
     KadenceAuthTokenBodyReq,
 )
-from domain.protocols.kadence.auth_http import AuthenticationHttpProtocol
+from domain.protocols.kadence import AuthenticationHttpProtocol
 
 
 class KadenceAuthRequester(AuthenticationHttpProtocol):

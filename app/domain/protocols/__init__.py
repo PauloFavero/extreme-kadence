@@ -1,1 +1,1 @@
-from .kadence.auth_repo import AuthenticationRepoProtocol
+from .kadence import AuthenticationHttpProtocol, AuthenticationRepoProtocol

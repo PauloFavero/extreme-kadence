@@ -1,6 +1,6 @@
 from time import time
 from domain.entities.kadence.auth import KadenceAuthToken
-from domain.protocols.kadence.auth_repo import AuthenticationRepoProtocol
+from domain.protocols.kadence import AuthenticationRepoProtocol
 from infra.databases.redis import RedisSingleton
 
 

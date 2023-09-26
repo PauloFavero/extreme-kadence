@@ -3,8 +3,7 @@ from typing import Optional
 
 from config.kadence import KadenceSettings
 from domain.protocols.auth_middleware import AuthMiddleware
-from domain.protocols.kadence.auth_http import AuthenticationHttpProtocol
-from domain.protocols.kadence.auth_repo import AuthenticationRepoProtocol
+from domain.protocols.kadence import AuthenticationHttpProtocol, AuthenticationRepoProtocol
 
 from domain.entities.kadence import (
     KadenceAuthToken,
