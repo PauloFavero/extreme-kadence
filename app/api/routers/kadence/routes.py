@@ -7,11 +7,11 @@ from typing import List
 import requests
 from fastapi import APIRouter, Depends
 from api.factories.kadence.auth_factory import kadence_auth_controller_factory
-from domain.services.kadence.pagination import get_hydra_pagination
+from api.factories.kadence.get_user_bookings_factory import (
+    kadence_get_user_bookings_factory,
+)
 from domain.entities.kadence.booking import (
     Booking,
-    BookingList,
-    FetchBookingsFilterParams,
 )
 
 from config.kadence import KadenceSettings
@@ -22,9 +22,9 @@ kadence_router = APIRouter(
     tags=["Kadence Integration"],
 )
 
-auth_controller = kadence_auth_controller_factory()
-
 kadence_settings = KadenceSettings()
+auth_controller = kadence_auth_controller_factory()
+bookings_controller = kadence_get_user_bookings_factory()
 
 
 @kadence_router.get("/auth", status_code=HTTPStatus.OK)
@@ -50,32 +50,14 @@ def get_user(token: KadenceAuthToken = Depends(auth_controller.handle)):
     "/user/bookings/{user_id}",
     status_code=HTTPStatus.OK,
 )
-def get_user_bookings(
-    user_id: str, token: KadenceAuthToken = Depends(auth_controller.handle)
+async def get_user_bookings(
+    user_id: str, page: int = 1, itens_per_page: int = 10
 ) -> List[Booking]:
     print(f"{datetime.now()} - GET /users/{user_id}/bookings")
-    query_params = FetchBookingsFilterParams()
-    response = requests.get(
-        f"{kadence_settings.base_uri}{kadence_settings.api_version}/users/{user_id}/bookings",
-        headers={"Authorization": f"{token.token_type} {token.access_token}"},
-        params=query_params.model_dump(by_alias=True),
+    bookings = await bookings_controller.handle(
+        user_id=user_id, page=page, itens_per_page=itens_per_page
     )
-    bookings = response.json()
-    pagination = get_hydra_pagination(bookings)
-    bookings_list = BookingList(itens=bookings.get("hydra:member", []))
-
-    ## fetch corresponding bookings
-    while pagination and pagination.next:
-        response = requests.get(
-            f"{kadence_settings.base_uri}{pagination.next}",
-            headers={"Authorization": f"{token.token_type} {token.access_token}"},
-            # params=query_params.model_dump(by_alias=True),
-        )
-        bookings = response.json()
-        pagination = get_hydra_pagination(bookings)
-        bookings_list.itens.extend(bookings.get("hydra:member", []))
-
-    return bookings_list.itens
+    return bookings
 
 
 @kadence_router.post(

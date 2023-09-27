@@ -1,2 +1,4 @@
 from .authentication.auth_repo import AuthenticationRepoProtocol
 from .authentication.auth_http import AuthenticationHttpProtocol
+from .booking.get_booking_by_id_http import GetBookingByIdHttpProtocol
+from .booking.get_user_bookings_http import GetUserBookingsHttpProtocol
