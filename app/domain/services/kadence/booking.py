@@ -12,18 +12,14 @@ class KadenceGetUserBookingsService:
     def __init__(
         self,
         requester: GetUserBookingsHttpProtocol,
-        authenticator: AuthMiddleware,
         config: KadenceSettings,
     ) -> None:
-        self.authenticator = authenticator
         self.requester = requester
         self.config = config
 
     async def handle(
-        self, user_id: str, page=1, itens_per_page: int = 10
+        self, user_id: str, token: KadenceAuthToken, page=1, itens_per_page: int = 10
     ) -> BookingList:
-        token = await self.authenticator.handle()
-
         if token is None or isinstance(token, KadenceAuthToken) is False:
             raise Exception("Invalid token")
 

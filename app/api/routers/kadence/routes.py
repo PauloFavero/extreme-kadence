@@ -5,7 +5,7 @@ from datetime import datetime
 from typing import List
 
 import requests
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
 from api.factories.kadence.auth_factory import kadence_auth_controller_factory
 from api.factories.kadence.get_user_bookings_factory import (
     kadence_get_user_bookings_factory,
@@ -51,11 +51,19 @@ def get_user(token: KadenceAuthToken = Depends(auth_controller.handle)):
     status_code=HTTPStatus.OK,
 )
 async def get_user_bookings(
-    user_id: str, page: int = 1, itens_per_page: int = 10
+    user_id: str,
+    page: int = 1,
+    itens_per_page: int = 10,
+    token: KadenceAuthToken = Depends(auth_controller.handle),
 ) -> List[Booking]:
     print(f"{datetime.now()} - GET /users/{user_id}/bookings")
+    if token is None or isinstance(token, KadenceAuthToken) is False:
+        raise HTTPException(
+            status_code=HTTPStatus.UNAUTHORIZED, detail=token.model_dump()
+        )
+
     bookings = await bookings_controller.handle(
-        user_id=user_id, page=page, itens_per_page=itens_per_page
+        user_id=user_id, token=token, page=page, itens_per_page=itens_per_page
     )
     return bookings
 
