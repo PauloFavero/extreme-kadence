@@ -63,3 +63,13 @@ Linter and static type checking rules can be discussed and reviewed with the ent
 - [ ] Add unit and integration test
 - [ ] Add formatter 
 - [ ] Add health check
+
+Kadence:
+ - [ ] Build logic to find the booking based on datetime
+ - [ ] Create util function to handle link pagination
+ - [ ] Build Check IN Controller
+
+ ExtremeCloudIQ:
+ - [ ] Create endpoint to regiter a webhook
+ - [ ] Create an endpoint to be registers as an endpoint
+ 

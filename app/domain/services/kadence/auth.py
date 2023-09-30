@@ -22,18 +22,12 @@ class KadenceAuthService(AuthMiddleware):
         self.requester = requester
         self.config = config
 
-    def __validate_token_expiration(self, token: KadenceAuthToken) -> bool:
-        curr_time = int(time())
-        expires_in = int(token.expires_in)
-        if curr_time < expires_in:
-            return True
-        return False
-
     async def handle(self) -> Optional[KadenceAuthToken | KadenceAuthError]:
         cached_token = await self.repo.get_cached_token()
 
-        if cached_token and self.__validate_token_expiration(cached_token):
+        if cached_token:
             return cached_token
+        
         else:
             token = await self.requester.get_token()
 
