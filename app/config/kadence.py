@@ -3,6 +3,8 @@ from pydantic_settings import BaseSettings
 
 
 class KadenceSettings(BaseSettings):
+    """Kadence settings."""
+
     identifier: str = Field(
         None,
         alias="kadence_identifier",
