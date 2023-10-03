@@ -9,6 +9,8 @@ from pydantic import BaseModel
 
 
 class KadenceAuthTokenBodyReq(BaseModel):
+    """Kadence Auth Token Body Request Model"""
+
     client_id: str
     grant_type: str = "client_credentials"
     client_secret: str
@@ -24,6 +26,7 @@ class KadenceFreshTokenHttpAdapter(GetFreshTokenHttp):
         self.__config = config
 
     async def get(self) -> KadenceAuthToken | KadenceAuthError:
+        """Get a new authentication token from Kadence API."""
         body_req = KadenceAuthTokenBodyReq(
             client_id=self.__config.identifier, client_secret=self.__config.secret
         )
