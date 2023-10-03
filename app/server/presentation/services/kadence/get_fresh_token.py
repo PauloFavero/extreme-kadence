@@ -15,7 +15,6 @@ class GetFreshKadenceTokenService(AuthMiddleware):
     async def handle(self) -> AuthToken:
         try:
             token = await self.kadence_port.get()
-            print('GetFreshKadenceTokenService', token)
             return token
         except Exception as error:
             print("Error while fetching Kadence token: ", error)

@@ -28,7 +28,6 @@ fresh_token_service = kadence_fresh_token_service_factory()
 @kadence_router.get("/fresh-token", status_code=HTTPStatus.OK)
 async def get_fresh_token() -> AuthToken:
     token = await fresh_token_service.handle()
-    print('get_fresh_token', token)
     return token
 
 # @kadence_router.get("/auth", status_code=HTTPStatus.OK)
