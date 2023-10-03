@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 
+
 class WebhookSubscritionData(BaseModel):
     application: str
     url: str

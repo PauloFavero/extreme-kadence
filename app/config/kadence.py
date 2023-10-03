@@ -1,8 +1,6 @@
-from pydantic import (
-    AliasChoices,
-    Field
-)
+from pydantic import AliasChoices, Field
 from pydantic_settings import BaseSettings
+
 
 class KadenceSettings(BaseSettings):
     identifier: str = Field(
@@ -43,9 +41,7 @@ class KadenceSettings(BaseSettings):
     login_endpoint: str = Field(
         "https://login.onkadence.co/oauth2/token",
         alias="kadence_login_endpoint",
-        validation_alias=AliasChoices("kadence_login_endpoint",
-                                      "kadence_login_uri",
-                                      "kadence_login_url")
+        validation_alias=AliasChoices(
+            "kadence_login_endpoint", "kadence_login_uri", "kadence_login_url"
+        ),
     )
-
-

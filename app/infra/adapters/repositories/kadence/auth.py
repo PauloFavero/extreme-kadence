@@ -8,7 +8,7 @@ class KadenceAuthRepo:
         self.__db = db
 
     async def persist(self, token: KadenceAuthToken) -> None:
-        print('redis persist token', token)
+        print("redis persist token", token)
         self.__db.set("kadence_token", token.access_token, ex=token.expires_in, nx=True)
         self.__db.set(
             "kadence_token_type", token.token_type, ex=token.expires_in, nx=True

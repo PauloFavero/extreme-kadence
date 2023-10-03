@@ -10,6 +10,7 @@ from config.server import environment
 
 kadence_config = environment.kadence
 
+
 def kadence_fresh_token_service_factory() -> AuthMiddleware:
     adapter = KadenceFreshTokenHttpAdapter(kadence_config)
     port = KadenceFreshTokenHttpPort(http_adapter=adapter)

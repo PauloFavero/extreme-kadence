@@ -7,4 +7,3 @@ class AuthMiddleware(ABC):
     async def handle(self) -> Any:
         """Abstract method to act as a middleware for authentication"""
         raise NotImplementedError
-    

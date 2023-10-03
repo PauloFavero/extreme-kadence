@@ -8,12 +8,13 @@ class CheckInMethod(Enum):
     SENSOR = "sensor"
     UNKNOWN = "unknown"
 
+
 class CheckInSource(Enum):
-    WEB="web"
-    IOS="ios"
-    ANDROID="android"
-    CALENDAR="calendar"
-    PUBLICAPI="publicApi"
-    SLACK="slack"
-    MSTEAMS="msTeams"
-    UNKNOWN="unknown"
+    WEB = "web"
+    IOS = "ios"
+    ANDROID = "android"
+    CALENDAR = "calendar"
+    PUBLICAPI = "publicApi"
+    SLACK = "slack"
+    MSTEAMS = "msTeams"
+    UNKNOWN = "unknown"

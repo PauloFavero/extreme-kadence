@@ -7,12 +7,11 @@ from config.server import environment
 
 kadence_config = environment.kadence
 
+
 def kadence_auth_controller_factory() -> AuthMiddleware:
     db = RedisSingleton()
     repository = KadenceAuthRepo(db)
     requester = KadenceAuthRequester(kadence_config)
     return KadenceAuthService(
-        repo=repository,
-        requester=requester,
-        config=kadence_config
+        repo=repository, requester=requester, config=kadence_config
     )

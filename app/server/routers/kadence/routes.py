@@ -3,8 +3,11 @@
 from http import HTTPStatus
 
 from fastapi import APIRouter, Depends, HTTPException
-from server.factories.kadence.fresh_token_factory import kadence_fresh_token_service_factory
+from server.factories.kadence.fresh_token_factory import (
+    kadence_fresh_token_service_factory,
+)
 from domain.entities import AuthToken
+
 # from server.presentation.services.kadence.get_fresh_token import GetFreshKadenceTokenService
 # from data.models import KadenceAuthToken
 # from server.factories.kadence.auth_factory import kadence_auth_controller_factory
@@ -25,10 +28,12 @@ kadence_settings = KadenceSettings()
 
 fresh_token_service = kadence_fresh_token_service_factory()
 
+
 @kadence_router.get("/fresh-token", status_code=HTTPStatus.OK)
 async def get_fresh_token() -> AuthToken:
     token = await fresh_token_service.handle()
     return token
+
 
 # @kadence_router.get("/auth", status_code=HTTPStatus.OK)
 # async def request_auth_token() -> KadenceAuthToken:

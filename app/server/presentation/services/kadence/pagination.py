@@ -2,6 +2,7 @@ from typing import Dict, Optional
 
 from data.models import HydraPagination
 
+
 def get_hydra_pagination(pagination_data: Dict[str, str]) -> Optional[HydraPagination]:
     """Get hydra pagination data from a dict."""
     hidra_view = pagination_data.get("hydra:view", None)

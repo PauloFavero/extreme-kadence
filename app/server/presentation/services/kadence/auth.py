@@ -3,7 +3,10 @@ from typing import Optional
 
 from config.kadence import KadenceSettings
 from domain.protocols.auth_middleware import AuthMiddleware
-from domain.protocols.kadence import AuthenticationHttpProtocol, AuthenticationRepoProtocol
+from domain.protocols.kadence import (
+    AuthenticationHttpProtocol,
+    AuthenticationRepoProtocol,
+)
 
 from domain.entities.kadence import (
     KadenceAuthToken,
@@ -27,7 +30,7 @@ class KadenceAuthService(AuthMiddleware):
 
         if cached_token:
             return cached_token
-        
+
         else:
             token = await self.requester.get_token()
 

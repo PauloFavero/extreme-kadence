@@ -1,12 +1,10 @@
-from pydantic import (
-    AliasChoices,
-    Field
-)
+from pydantic import AliasChoices, Field
 from pydantic_settings import BaseSettings
+
 
 class SentrySettings(BaseSettings):
     dsn: str = Field(
-        '',
+        "",
         alias=AliasChoices("sentry_dsn", "sentry_url"),
     )
     traces_sample_rate: float = Field(1.0, alias="sentry_traces_sample_rate")

@@ -54,31 +54,31 @@ class BookingStatus(Enum):
 
 
 class CancellationReason(Enum):
-    BY_USER="byUser"
-    BY_USER_IN_BULK="byUserInBulk"
-    AUTO_SPACE_RELEASE="autoSpaceRelease"
-    PERMANENT_DESK="permanentDesk"
-    CHANGE_IN_BUILD_ING_POLICY="changeInBuildingPolicy"
-    CHANGE_IN_COMPANY_POLICY="changeInCompanyPolicy"
-    REMOVED_FROM_CALENDAR_BY_PROVIDER="removedFromCalendarByProvider"
-    REMOVED_FROM_CALENDAR_BY_KADENCE="removedFromCalendarByKadence"
-    CALENDAR_SYNC_ERROR="calendarSyncError"
-    SPACE_NO_LONGER_AVAILABLE="spaceNoLongerAvailable"
-    SPACE_RESTRICTED="spaceRestricted"
-    SPACE_NOT_RESTRICTED_ANYMORE="spaceNotRestrictedAnymore"
-    USER_DELETED="userDeleted"
-    BUILDING_CLOSURE="buildingClosure"
+    BY_USER = "byUser"
+    BY_USER_IN_BULK = "byUserInBulk"
+    AUTO_SPACE_RELEASE = "autoSpaceRelease"
+    PERMANENT_DESK = "permanentDesk"
+    CHANGE_IN_BUILD_ING_POLICY = "changeInBuildingPolicy"
+    CHANGE_IN_COMPANY_POLICY = "changeInCompanyPolicy"
+    REMOVED_FROM_CALENDAR_BY_PROVIDER = "removedFromCalendarByProvider"
+    REMOVED_FROM_CALENDAR_BY_KADENCE = "removedFromCalendarByKadence"
+    CALENDAR_SYNC_ERROR = "calendarSyncError"
+    SPACE_NO_LONGER_AVAILABLE = "spaceNoLongerAvailable"
+    SPACE_RESTRICTED = "spaceRestricted"
+    SPACE_NOT_RESTRICTED_ANYMORE = "spaceNotRestrictedAnymore"
+    USER_DELETED = "userDeleted"
+    BUILDING_CLOSURE = "buildingClosure"
 
 
 class FetchBookingsFilterParams(BaseModel):
     type: Optional[BookingType] = BookingType.DESK.value
     status: Optional[BookingStatus] = BookingStatus.BOOKED.value
     startDateTime: Optional[datetime] = Field(
-        datetime.fromisoformat("2023-09-27T08:00:00+00:00"), alias="startDateTime[local_strictly_after]"
+        datetime.fromisoformat("2023-09-27T08:00:00+00:00"),
+        alias="startDateTime[local_strictly_after]",
     )
     # endDateTime: Optional[datetime] = Field(
     #     "2023-09-26T15:00:00+00:00", alias="endDateTime[local_strictly_after]"
     # )
     page: Optional[int] = 1
     itemsPerPage: Optional[int] = 10
-

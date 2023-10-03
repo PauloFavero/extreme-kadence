@@ -16,6 +16,8 @@ class UvicornSettings(BaseSettings):
     )
     log_level: str = Field(
         "info",
-        validation_alias=AliasChoices("log_level", "server_log_level", "uvicorn_log_level"),
+        validation_alias=AliasChoices(
+            "log_level", "server_log_level", "uvicorn_log_level"
+        ),
     )
     api_version: str = Field("1.0.0", alias="api_version")

@@ -1,7 +1,8 @@
 from config import SentrySettings
 
+
 def enable_sentry(config: SentrySettings) -> None:
-    if config.dsn != '':
+    if config.dsn != "":
         import sentry_sdk
         from sentry_sdk.integrations.excepthook import ExcepthookIntegration
 

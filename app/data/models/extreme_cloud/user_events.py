@@ -1,6 +1,7 @@
 from typing import List
 from pydantic import BaseModel
 
+
 class UserLoginEvent(BaseModel):
     ownerId: int
     orgId: int

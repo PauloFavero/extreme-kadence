@@ -1,7 +1,7 @@
-
 from abc import ABC, abstractmethod
 
 from data.models import KadenceAuthToken
+
 
 class CacheTokenRepo(ABC):
     @abstractmethod

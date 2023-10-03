@@ -4,7 +4,6 @@ from domain.usecases import GetFreshToken
 from server.presentation.auth_middleware import AuthMiddleware
 
 
-
 class GetFreshKadenceTokenService(AuthMiddleware):
     def __init__(
         self,

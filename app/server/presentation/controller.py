@@ -7,4 +7,3 @@ class Controller(ABC):
     async def handle(self, request: Optional[Any] = None) -> Any:
         """Abstract method for handle a request and return a response"""
         raise NotImplementedError
-    

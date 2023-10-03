@@ -2,7 +2,8 @@ from pydantic import BaseModel
 from http import HTTPMethod, HTTPStatus
 from typing import Optional, TypeVar, Generic
 
-T = TypeVar('T')
+T = TypeVar("T")
+
 
 class HttpRequestConfig(BaseModel, Generic[T]):
     url: str

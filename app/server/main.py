@@ -36,6 +36,7 @@ app.add_middleware(
 
 app.include_router(kadence_router)
 
+
 @app.get("/", status_code=HTTPStatus.OK)
 def root():
     return "ExtremeCloudIQ & Kadence Integrator"
@@ -49,5 +50,3 @@ def startup_event():
 @app.on_event("shutdown")
 def shutdown_event():
     print(f"{datetime.now()} - Shutting down server...")
-
-

@@ -28,12 +28,12 @@ class RedisSingleton:
             host=host, port=port, db=db, decode_responses=True
         )
 
-    def set(self, key: str, value: Any, ex:int=None, nx:bool=False):
+    def set(self, key: str, value: Any, ex: int = None, nx: bool = False):
         return self.redis_client.set(key, value, ex=ex, nx=nx)
 
     def get(self, key: str):
         return self.redis_client.get(key)
-    
+
     def getmany(self, keys: List[str]):
         return self.redis_client.mget(*keys)
 
