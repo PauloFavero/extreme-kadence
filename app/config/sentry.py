@@ -3,6 +3,8 @@ from pydantic_settings import BaseSettings
 
 
 class SentrySettings(BaseSettings):
+    """Sentry Settings"""
+
     dsn: str = Field(
         "",
         alias=AliasChoices("sentry_dsn", "sentry_url"),

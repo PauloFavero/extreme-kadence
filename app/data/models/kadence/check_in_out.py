@@ -2,6 +2,8 @@ from enum import Enum
 
 
 class CheckInMethod(Enum):
+    """Check in method."""
+
     DOOR = "door"
     WIFI = "wifi"
     GEOFENCE = "front_desk"
@@ -10,6 +12,8 @@ class CheckInMethod(Enum):
 
 
 class CheckInSource(Enum):
+    """Check in source."""
+
     WEB = "web"
     IOS = "ios"
     ANDROID = "android"

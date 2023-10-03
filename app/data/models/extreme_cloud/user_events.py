@@ -3,6 +3,8 @@ from pydantic import BaseModel
 
 
 class UserLoginEvent(BaseModel):
+    """User Login Event Model"""
+
     ownerId: int
     orgId: int
     timeStamp: int
@@ -21,6 +23,8 @@ class UserLoginEvent(BaseModel):
 
 
 class UserLogoutEvent(BaseModel):
+    """User Logout Event Model"""
+
     ownerId: int
     orgId: int
     timeStamp: int

@@ -3,11 +3,14 @@ from infra.databases.redis import RedisSingleton
 
 
 class KadenceAuthRepo:
+    """Kadence Authentication Repository"""
+
     def __init__(self, db: RedisSingleton) -> None:
         super().__init__()
         self.__db = db
 
     async def persist(self, token: KadenceAuthToken) -> None:
+        """Persist token in redis"""
         print("redis persist token", token)
         self.__db.set("kadence_token", token.access_token, ex=token.expires_in, nx=True)
         self.__db.set(
@@ -21,12 +24,14 @@ class KadenceAuthRepo:
         )
 
     async def delete(self) -> None:
+        """Delete token from redis"""
         self.__db.delete("kadence_token")
         self.__db.delete("kadence_token_type")
         self.__db.delete("kadence_token_expires_at")
         self.__db.delete("kadence_token_expires_in")
 
     async def get_cached_token(self) -> KadenceAuthToken:
+        """Get cached token from redis"""
         access_token, token_type, exp_in, exp_at = self.__db.getmany(
             [
                 "kadence_token",

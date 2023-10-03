@@ -3,6 +3,8 @@ from pydantic_settings import BaseSettings
 
 
 class UvicornSettings(BaseSettings):
+    """Uvicorn Settings"""
+
     host: str = Field(
         "localhost",
         validation_alias=AliasChoices("host", "server_host", "uvicorn_host"),

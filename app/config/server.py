@@ -8,6 +8,8 @@ from .uvicorn import UvicornSettings
 
 
 class ServerSettings(BaseSettings):
+    """Server Settings"""
+
     uvicorn: UvicornSettings = Field(UvicornSettings())
     redis: RedisSettings = Field(RedisSettings())
     sentry: SentrySettings = Field(SentrySettings())

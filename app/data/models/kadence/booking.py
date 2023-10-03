@@ -1,13 +1,16 @@
+from enum import Enum
 from datetime import datetime
-from pydantic import BaseModel, Field
 from typing import List, Optional
+
+from pydantic import BaseModel, Field
 
 from .space import Space
 from .check_in_out import CheckInMethod
-from enum import Enum
 
 
 class Booking(BaseModel):
+    """Booking Model"""
+
     id: str
     createdUserId: str
     userId: str
@@ -29,22 +32,30 @@ class Booking(BaseModel):
     building: str
 
     class Config:
+        """Config for Booking Model"""
+
         json_encoders = {
             datetime: lambda v: v.isoformat(),
         }
 
 
 class BookingList(BaseModel):
+    """Booking List Model"""
+
     itens: List[Booking]
 
 
 class BookingType(Enum):
+    """Booking type."""
+
     DESK = "desk"
     ROOM = "room"
     ONSITE = "onsite"
 
 
 class BookingStatus(Enum):
+    """Booking status."""
+
     BOOKED = "booked"
     CHECKEDIN = "checkedIn"
     CHECKEDOUT = "checkedOut"
@@ -54,6 +65,8 @@ class BookingStatus(Enum):
 
 
 class CancellationReason(Enum):
+    """Cancellation reason."""
+
     BY_USER = "byUser"
     BY_USER_IN_BULK = "byUserInBulk"
     AUTO_SPACE_RELEASE = "autoSpaceRelease"
@@ -71,6 +84,8 @@ class CancellationReason(Enum):
 
 
 class FetchBookingsFilterParams(BaseModel):
+    """Fetch Bookings Filter Params Model"""
+
     type: Optional[BookingType] = BookingType.DESK.value
     status: Optional[BookingStatus] = BookingStatus.BOOKED.value
     startDateTime: Optional[datetime] = Field(

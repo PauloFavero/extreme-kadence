@@ -7,6 +7,8 @@ T = TypeVar("T")
 
 
 class HttpRequestConfig(BaseModel, Generic[T]):
+    """Http Request Config Model"""
+
     url: str
     method: HTTPMethod
     headers: dict
@@ -14,5 +16,7 @@ class HttpRequestConfig(BaseModel, Generic[T]):
 
 
 class HttpResponse(BaseModel, Generic[T]):
+    """Http Response Model"""
+
     status_code: HTTPStatus
     body: T
