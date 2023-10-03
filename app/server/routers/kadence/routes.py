@@ -6,8 +6,8 @@ from typing import List
 
 import requests
 from fastapi import APIRouter, Depends, HTTPException
-from api.factories.kadence.auth_factory import kadence_auth_controller_factory
-from api.factories.kadence.get_user_bookings_factory import (
+from server.factories.kadence.auth_factory import kadence_auth_controller_factory
+from server.factories.kadence.get_user_bookings_factory import (
     kadence_get_user_bookings_factory,
 )
 from domain.entities.kadence.booking import (
