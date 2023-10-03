@@ -51,11 +51,15 @@ Black is the tool of choice for formating and code style guide. Black is an unco
 
 Linter and static type checking rules can be discussed and reviewed with the entire team. Any merge request that tries to change these rules without consent is automatically rejected and closed.
 
+## Architecture
+
+![Server Action Diagram](docs/action_diagram.png)
+
 
 ### TODO:
 
 - [ ] Add non-root user in docker (use FastAPI user)
-- [ x ] Fix hot reload in development docker
+- [x] Fix hot reload in development docker
 - [ ] Remove uvicorn --reload flag for production
 - [ ] Add python logger
 - [ ] Add linter
@@ -66,10 +70,10 @@ Linter and static type checking rules can be discussed and reviewed with the ent
 
 Kadence:
  - [ ] Build logic to find the booking based on datetime
- - [ ] Create util function to handle link pagination
+ - [x] Create util function to handle link pagination
  - [ ] Build Check IN Controller
 
  ExtremeCloudIQ:
  - [ ] Create endpoint to regiter a webhook
- - [ ] Create an endpoint to be registers as an endpoint
+ - [ ] Create an endpoint for kadence auth
  
