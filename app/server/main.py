@@ -1,4 +1,4 @@
-from server import enable_sentry
+from .monitoring import enable_sentry
 from config import environment
 from api import server as app
 
