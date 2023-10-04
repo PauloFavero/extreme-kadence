@@ -1,29 +1,25 @@
-from pydantic import (
-    AliasChoices,
-    Field
-)
+from pydantic import AliasChoices, Field
 from pydantic_settings import BaseSettings
 
+
 class KadenceSettings(BaseSettings):
+    """Kadence settings."""
+
     identifier: str = Field(
-        None,
         alias="kadence_identifier",
         validation_alias=AliasChoices(
             "kadence_api_key", "kadence_key", "kadence_id", "kadence_identifier"
         ),
     )
     secret: str = Field(
-        None,
         alias="kadence_secret",
         validation_alias=AliasChoices("kadence_secret", "kadence_auth"),
     )
     username: str = Field(
-        None,
         alias="kadence_username",
         validation_alias=AliasChoices("kadence_username", "kadence_user"),
     )
     password: str = Field(
-        None,
         alias="kadence_password",
         validation_alias=AliasChoices("kadence_password", "kadence_pass"),
     )
@@ -43,9 +39,7 @@ class KadenceSettings(BaseSettings):
     login_endpoint: str = Field(
         "https://login.onkadence.co/oauth2/token",
         alias="kadence_login_endpoint",
-        validation_alias=AliasChoices("kadence_login_endpoint",
-                                      "kadence_login_uri",
-                                      "kadence_login_url")
+        validation_alias=AliasChoices(
+            "kadence_login_endpoint", "kadence_login_uri", "kadence_login_url"
+        ),
     )
-
-
