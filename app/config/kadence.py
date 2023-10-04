@@ -6,24 +6,20 @@ class KadenceSettings(BaseSettings):
     """Kadence settings."""
 
     identifier: str = Field(
-        None,
         alias="kadence_identifier",
         validation_alias=AliasChoices(
             "kadence_api_key", "kadence_key", "kadence_id", "kadence_identifier"
         ),
     )
     secret: str = Field(
-        None,
         alias="kadence_secret",
         validation_alias=AliasChoices("kadence_secret", "kadence_auth"),
     )
     username: str = Field(
-        None,
         alias="kadence_username",
         validation_alias=AliasChoices("kadence_username", "kadence_user"),
     )
     password: str = Field(
-        None,
         alias="kadence_password",
         validation_alias=AliasChoices("kadence_password", "kadence_pass"),
     )
