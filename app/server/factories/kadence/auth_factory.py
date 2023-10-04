@@ -1,13 +1,6 @@
-from data.ports import KadenceFreshTokenHttpPort
-from data.ports.repository.kadence.db_cache_token_port import (
-    DbKadenceTokenCachePort,
-)
-from infra.adapters.http.kadence.fresh_token_adapter import (
-    KadenceFreshTokenHttpAdapter,
-)
-from infra.adapters.repositories.kadence.db_token_cache_adapter import (
-    DdKadenceTokenCacheRepository,
-)
+from data.ports import KadenceFreshTokenHttpPort, DbKadenceTokenCachePort
+from infra.adapters import KadenceFreshTokenHttpAdapter, DdKadenceTokenCacheRepository
+
 from server.presentation.services.kadence.auth import KadenceAuthService
 from server.presentation.auth_middleware import AuthMiddleware
 from config import environment

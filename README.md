@@ -80,3 +80,13 @@ Kadence:
  - [ ] Create endpoint to regiter a webhook
  - [ ] Create an endpoint for kadence auth
  
+ ### Tools:
+
+**Linter:**
+To run pylint in the app folder, execute the following command: `pylint ./app/`
+
+**Formmater:**
+To run black in the app folder, execute the following command: `black ./app/`
+
+**Type Checker:**
+To run mypy in the app folder, execute the following command: `mypy ./app/`

@@ -1,8 +1,6 @@
 from typing import Optional, Tuple
 import requests
-from app.data.protocols.kadence.booking.get_user_bookings_http import (
-    GetUserBookingsHttpProtocol,
-)
+from data.protocols import GetUserBookingsHttpProtocol
 from server.presentation.services.kadence.pagination import get_hydra_pagination
 from data.models import (
     KadenceAuthToken,
