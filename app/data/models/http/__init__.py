@@ -1,5 +1,5 @@
 from http import HTTPMethod, HTTPStatus
-from typing import Optional, TypeVar, Generic
+from typing import Optional, TypeVar, Generic, Dict
 
 from pydantic import BaseModel
 
@@ -11,7 +11,7 @@ class HttpRequestConfig(BaseModel, Generic[T]):
 
     url: str
     method: HTTPMethod
-    headers: dict
+    headers: Dict[str, str | int | float | bool]
     data: Optional[T] = None
 
 
