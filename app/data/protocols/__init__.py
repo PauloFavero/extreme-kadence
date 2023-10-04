@@ -4,3 +4,5 @@ from .kadence.authentication.get_cached_token_repo import GetCachedTokenRepo
 
 from .kadence.booking.get_user_bookings_http import GetUserBookingsHttpProtocol
 from .kadence.booking.get_booking_by_id_http import GetBookingByIdHttpProtocol
+
+from .kadence.user.get_http import GetKadenceUserHttp
