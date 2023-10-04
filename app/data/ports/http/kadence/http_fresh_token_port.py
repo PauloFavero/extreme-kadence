@@ -13,11 +13,15 @@ class KadenceFreshTokenHttpPort(GetFreshToken):
     async def get(self) -> AuthToken:
         """Method to get an authentication token from the kadence API""" ""
         kadence_token = await self.http_adapter.get()
+
         if isinstance(kadence_token, KadenceAuthToken):
             return AuthToken(
-                token=kadence_token.access_token, type=kadence_token.token_type
+                token=kadence_token.access_token,
+                type=kadence_token.token_type,
+                expire_at=kadence_token.expires_at,
+                expire_in=kadence_token.expires_in,
             )
         raise Exception(
-            "Error on getting a kadence authentication token",
+            "Error on getting kadence authentication token",
             kadence_token.model_dump(),
         )

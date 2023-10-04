@@ -1,17 +1,24 @@
-from domain.protocols.auth_middleware import AuthMiddleware
-from domain.services.kadence.auth import KadenceAuthService
-from infra.databases.redis import RedisSingleton
-from infra.http.kadence.auth import KadenceAuthRequester
-from infra.repositories.kadence.auth import KadenceAuthRepo
-from config.server import environment
-
-kadence_config = environment.kadence
+from data.ports import KadenceFreshTokenHttpPort
+from data.ports.repository.kadence.db_cache_token_port import (
+    DbKadenceTokenCachePort,
+)
+from infra.adapters.http.kadence.fresh_token_adapter import (
+    KadenceFreshTokenHttpAdapter,
+)
+from infra.adapters.repositories.kadence.db_token_cache_adapter import (
+    DdKadenceTokenCacheRepository,
+)
+from server.presentation.services.kadence.auth import KadenceAuthService
+from server.presentation.auth_middleware import AuthMiddleware
+from config import environment
 
 
 def kadence_auth_controller_factory() -> AuthMiddleware:
-    db = RedisSingleton()
-    repository = KadenceAuthRepo(db)
-    requester = KadenceAuthRequester(kadence_config)
-    return KadenceAuthService(
-        repo=repository, requester=requester, config=kadence_config
-    )
+    """Kadence auth controller factory"""
+    db_cache_adapter = DdKadenceTokenCacheRepository()
+    db_cache_port = DbKadenceTokenCachePort(db_cache_adapter, db_cache_adapter)
+
+    http_adapter = KadenceFreshTokenHttpAdapter(environment.kadence)
+    http_port = KadenceFreshTokenHttpPort(http_adapter)
+
+    return KadenceAuthService(cache_port=db_cache_port, http_port=http_port)

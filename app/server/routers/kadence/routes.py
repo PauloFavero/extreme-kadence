@@ -10,7 +10,8 @@ from domain.entities import AuthToken
 
 # from server.presentation.services.kadence.get_fresh_token import GetFreshKadenceTokenService
 # from data.models import KadenceAuthToken
-# from server.factories.kadence.auth_factory import kadence_auth_controller_factory
+from server.factories.kadence.auth_factory import kadence_auth_controller_factory
+
 # from server.factories.kadence.get_user_bookings_factory import (
 #     kadence_get_user_bookings_factory,
 # )
@@ -23,7 +24,7 @@ kadence_router = APIRouter(
 )
 
 kadence_settings = KadenceSettings()
-# auth_controller = kadence_auth_controller_factory()
+auth_controller = kadence_auth_controller_factory()
 # bookings_controller = kadence_get_user_bookings_factory()
 
 fresh_token_service = kadence_fresh_token_service_factory()
@@ -31,14 +32,16 @@ fresh_token_service = kadence_fresh_token_service_factory()
 
 @kadence_router.get("/fresh-token", status_code=HTTPStatus.OK)
 async def get_fresh_token() -> AuthToken:
+    """Get fresh token from Kadence API"""
     token = await fresh_token_service.handle()
     return token
 
 
-# @kadence_router.get("/auth", status_code=HTTPStatus.OK)
-# async def request_auth_token() -> KadenceAuthToken:
-#     token = await auth_controller.handle()
-#     return token
+@kadence_router.get("/auth", status_code=HTTPStatus.OK)
+async def request_auth_token() -> AuthToken:
+    """Get kadence authentication token"""
+    token = await auth_controller.handle()
+    return token
 
 
 # @kadence_router.get(

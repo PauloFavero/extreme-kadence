@@ -62,11 +62,14 @@ Linter and static type checking rules can be discussed and reviewed with the ent
 - [x] Fix hot reload in development docker
 - [ ] Remove uvicorn --reload flag for production
 - [ ] Add python logger
-- [ ] Add linter
-- [ ] Add mypy
+- [x] Add pylint
+- [x] Add mypy
+- [x] Add black formatter 
 - [ ] Add unit and integration test
-- [ ] Add formatter 
 - [ ] Add health check
+- [ ] Add swagger documentation of exceptions and status codes
+- [ ] Create custom exceptions based on FastAPI exceptions (example: UnauthorizedException(HTTPException))
+- [ ] Fix python modules and packages
 
 Kadence:
  - [ ] Build logic to find the booking based on datetime

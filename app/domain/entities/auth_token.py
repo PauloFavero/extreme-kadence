@@ -6,3 +6,5 @@ class AuthToken(BaseModel):
 
     token: str
     type: str
+    expire_at: int
+    expire_in: int

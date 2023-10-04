@@ -1,42 +1,37 @@
-from time import time
-from typing import Optional
+from http import HTTPStatus
+from typing import Optional, Union
 
-from config.kadence import KadenceSettings
-from domain.protocols.auth_middleware import AuthMiddleware
-from domain.protocols.kadence import (
-    AuthenticationHttpProtocol,
-    AuthenticationRepoProtocol,
-)
-
-from domain.entities.kadence import (
-    KadenceAuthToken,
-    KadenceAuthError,
-)
+from fastapi import HTTPException
+from domain.entities import AuthToken
+from domain.usecases import CacheToken, GetCachedToken, GetFreshToken
 
 
-class KadenceAuthService(AuthMiddleware):
+class KadenceAuthService:
+    """Kadence authentication service"""
+
     def __init__(
         self,
-        repo: AuthenticationRepoProtocol,
-        requester: AuthenticationHttpProtocol,
-        config: KadenceSettings,
+        cache_port: Union[GetCachedToken, CacheToken],
+        http_port: GetFreshToken,
     ) -> None:
-        self.repo = repo
-        self.requester = requester
-        self.config = config
+        self.cache_port = cache_port
+        self.http_port = http_port
 
-    async def handle(self) -> Optional[KadenceAuthToken | KadenceAuthError]:
-        cached_token = await self.repo.get_cached_token()
+    async def handle(self) -> Optional[AuthToken]:
+        """Method to handle authentication"""
+        try:
+            cached_token = self.cache_port.get()
 
-        if cached_token:
-            return cached_token
-
-        else:
-            token = await self.requester.get_token()
-
-            if isinstance(token, KadenceAuthToken):
-                await self.repo.persist(token)
+            if cached_token:
+                return cached_token
             else:
-                print("Error while fetching Kadence token: ", token)
-                self.repo.delete()
-            return token
+                fresh_token = await self.http_port.get()
+                self.cache_port.cache(fresh_token)
+
+                return fresh_token
+
+        except Exception as error:
+            print("Error while fetching Kadence fresh_token: ", error)
+            raise HTTPException(
+                status_code=HTTPStatus.UNAUTHORIZED, detail=error.__str__()
+            ) from error
