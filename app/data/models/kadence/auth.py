@@ -1,6 +1,6 @@
 """Kadence Domain Models"""
 from time import time
-from typing import Any
+from typing import Any, Optional
 
 from pydantic import BaseModel, model_validator
 
@@ -18,7 +18,7 @@ class KadenceAuthToken(BaseModel):
     def check_card_number_omitted(cls, data: Any) -> Any:
         """Method to validate and build expires_at field"""
         if isinstance(data, dict):
-            exp_at: int = data.get("expires_at", None)
+            exp_at: Optional[int] = data.get("expires_at", None)
             if exp_at is None:
                 exp_in: int = data.get("expires_in", 0)
                 data["expires_at"] = int(exp_in) + int(time())
