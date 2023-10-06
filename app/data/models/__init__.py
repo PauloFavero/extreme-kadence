@@ -10,6 +10,8 @@ from .kadence.booking import (
 )
 from .kadence.pagination import HydraPagination
 from .kadence.space import Floor, Space, Neighborhood
+from .kadence.user import KadenceUser, TimePreference
+
 from . import http
 
 from .extreme_cloud.register_webhook import WebhookSubscritionData

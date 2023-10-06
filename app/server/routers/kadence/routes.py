@@ -1,15 +1,17 @@
 """Kadence Router Configuration"""
-
+from datetime import datetime
 from http import HTTPStatus
 
+import requests
 from fastapi import APIRouter, Depends, HTTPException
+from server.factories.kadence.get_user_factory import get_kadence_user_factory
 from server.factories.kadence.fresh_token_factory import (
     kadence_fresh_token_service_factory,
 )
-from domain.entities import AuthToken
+from domain.entities import AuthToken, User
 
 # from server.presentation.services.kadence.get_fresh_token import GetFreshKadenceTokenService
-# from data.models import KadenceAuthToken
+from data.models import KadenceAuthToken
 from server.factories.kadence.auth_factory import kadence_auth_controller_factory
 
 # from server.factories.kadence.get_user_bookings_factory import (
@@ -25,6 +27,7 @@ kadence_router = APIRouter(
 
 kadence_settings = KadenceSettings()
 auth_controller = kadence_auth_controller_factory()
+get_user_service = get_kadence_user_factory()
 # bookings_controller = kadence_get_user_bookings_factory()
 
 fresh_token_service = kadence_fresh_token_service_factory()
@@ -44,17 +47,15 @@ async def request_auth_token() -> AuthToken:
     return token
 
 
-# @kadence_router.get(
-#     "/user",
-#     status_code=HTTPStatus.OK,
-# )
-# def get_user(token: KadenceAuthToken = Depends(auth_controller.handle)):
-#     print(f"{datetime.now()} - GET /user")
-#     user = requests.get(
-#         f"{kadence_settings.base_uri}{kadence_settings.api_version}/users?email=phfaverop@gmail.com",
-#         headers={"Authorization": f"{token.token_type} {token.access_token}"},
-#     )
-#     return user.json()
+@kadence_router.get(
+    "/user",
+    status_code=HTTPStatus.OK,
+)
+async def get_user(
+    user_email: str, token: AuthToken = Depends(auth_controller.handle)
+) -> User:
+    user = await get_user_service.handle(token=token, user_email=user_email)
+    return user
 
 
 # @kadence_router.get(
