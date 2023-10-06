@@ -1,26 +1,15 @@
 from typing import Optional
+
 from pydantic import BaseModel
 
-
-class Neighborhood(BaseModel):
-    """Neighborhood Model"""
-
-    id: str
-    name: str
+from domain.entities import SpaceType, Floor, Neighborhood
 
 
-class Floor(BaseModel):
-    """Floor Model"""
-
-    id: str
-    name: str
-
-
-class Space(BaseModel):
+class KadenceSpace(BaseModel):
     """Space Model"""
 
     id: str
     name: str
-    type: str
+    type: SpaceType
     floor: Optional[Floor]
     neighborhood: Optional[Neighborhood]

@@ -1,4 +1,5 @@
 from .http.kadence.http_fresh_token_port import KadenceFreshTokenHttpPort
 from .http.kadence.http_get_user_port import KadenceGetUserHttpPort
+from .http.kadence.http_get_booking_port import KadenceGetUserBookingsHttpPort
 
 from .repository.kadence.db_cache_token_port import DbKadenceTokenCachePort

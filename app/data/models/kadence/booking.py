@@ -1,35 +1,52 @@
-from enum import Enum
 from datetime import datetime
-from typing import List, Optional
+from typing import Optional
 
 from pydantic import BaseModel, Field
+from .space import KadenceSpace
 
-from .space import Space
-from .check_in_out import CheckInMethod
+from domain.entities import (
+    BookingStatus,
+    BookingType,
+    CancellationReason,
+    CheckInOutMethod,
+    CheckInOutSource,
+)
 
 
-class Booking(BaseModel):
+class KadenceBooking(BaseModel):
     """Booking Model"""
 
     id: str
-    createdUserId: str
-    userId: str
-    space: Space
-    startDate: datetime
-    endDate: datetime
-    createdAt: datetime
-    updatedAt: datetime
-    checkedInSource: CheckInMethod
-    checkOutSource: CheckInMethod
-    permanent: bool
-    hasGuests: bool
-    guestBooking: bool
-    recurringBooking: bool
-    selfCertifySource: str
-    source: str
-    status: str
-    type: str
-    building: str
+    created_user_id: Optional[str] = Field(alias="createdUserId")
+    user_id: Optional[str] = Field(alias="userId")
+    space: Optional[KadenceSpace]
+    # start_date: Optional[datetime] = Field(alias="startDate")
+    # end_date: Optional[datetime] = Field(alias="endDate")
+    # created_at: datetime = Field(alias="createdAt")
+    # updated_at: datetime = Field(alias="updatedAt")
+
+    # checked_in_date: Optional[datetime] = Field(alias="checkedInDate")
+    # checked_in_source: CheckInOutSource
+    # check_in_method: Optional[CheckInOutMethod]
+
+    # check_out_source: CheckInOutSource
+    # check_out_method: Optional[CheckInOutMethod]
+    # checked_out_date: Optional[datetime] = Field(alias="checkedOutDate")
+
+    # cancellation_reason: Optional[CancellationReason] = Field(
+    #     alias="cancellationReason"
+    # )
+    # cancelled_date: Optional[datetime] = Field(alias="cancelledDate")
+
+    # permanent: bool
+    # has_guests: bool
+    # guest_booking: bool
+    # recurring_booking: bool
+    # self_certify_source: str
+    # source: CheckInOutSource
+    # status: BookingStatus
+    # type: BookingType
+    # building: Optional[str]
 
     class Config:
         """Config for Booking Model"""
@@ -37,63 +54,3 @@ class Booking(BaseModel):
         json_encoders = {
             datetime: lambda v: v.isoformat(),
         }
-
-
-class BookingList(BaseModel):
-    """Booking List Model"""
-
-    itens: List[Booking]
-
-
-class BookingType(Enum):
-    """Booking type."""
-
-    DESK = "desk"
-    ROOM = "room"
-    ONSITE = "onsite"
-
-
-class BookingStatus(Enum):
-    """Booking status."""
-
-    BOOKED = "booked"
-    CHECKEDIN = "checkedIn"
-    CHECKEDOUT = "checkedOut"
-    COMPLETED = "completed"
-    CANCELLED = "cancelled"
-    NOCHECKIN = "noCheckIn"
-
-
-class CancellationReason(Enum):
-    """Cancellation reason."""
-
-    BY_USER = "byUser"
-    BY_USER_IN_BULK = "byUserInBulk"
-    AUTO_SPACE_RELEASE = "autoSpaceRelease"
-    PERMANENT_DESK = "permanentDesk"
-    CHANGE_IN_BUILD_ING_POLICY = "changeInBuildingPolicy"
-    CHANGE_IN_COMPANY_POLICY = "changeInCompanyPolicy"
-    REMOVED_FROM_CALENDAR_BY_PROVIDER = "removedFromCalendarByProvider"
-    REMOVED_FROM_CALENDAR_BY_KADENCE = "removedFromCalendarByKadence"
-    CALENDAR_SYNC_ERROR = "calendarSyncError"
-    SPACE_NO_LONGER_AVAILABLE = "spaceNoLongerAvailable"
-    SPACE_RESTRICTED = "spaceRestricted"
-    SPACE_NOT_RESTRICTED_ANYMORE = "spaceNotRestrictedAnymore"
-    USER_DELETED = "userDeleted"
-    BUILDING_CLOSURE = "buildingClosure"
-
-
-class FetchBookingsFilterParams(BaseModel):
-    """Fetch Bookings Filter Params Model"""
-
-    type: Optional[BookingType] = BookingType.DESK.value
-    status: Optional[BookingStatus] = BookingStatus.BOOKED.value
-    startDateTime: Optional[datetime] = Field(
-        datetime.fromisoformat("2023-09-27T08:00:00+00:00"),
-        alias="startDateTime[local_strictly_after]",
-    )
-    # endDateTime: Optional[datetime] = Field(
-    #     "2023-09-26T15:00:00+00:00", alias="endDateTime[local_strictly_after]"
-    # )
-    page: Optional[int] = 1
-    itemsPerPage: Optional[int] = 10
