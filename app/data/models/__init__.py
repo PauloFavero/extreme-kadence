@@ -1,15 +1,7 @@
 from .kadence.auth import KadenceAuthToken, KadenceAuthError, KadenceRateLimit
-from .kadence.check_in_out import CheckInMethod, CheckInSource
-from .kadence.booking import (
-    Booking,
-    BookingList,
-    BookingType,
-    BookingStatus,
-    CancellationReason,
-    FetchBookingsFilterParams,
-)
+from .kadence.booking import KadenceBooking
 from .kadence.pagination import HydraPagination
-from .kadence.space import Floor, Space, Neighborhood
+from .kadence.space import KadenceSpace
 from .kadence.user import KadenceUser, TimePreference
 
 from . import http

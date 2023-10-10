@@ -1,7 +1,7 @@
 from pydantic import Field
 from pydantic_settings import BaseSettings
 
-from .redis import RedisSettings
+from .redisSettings import RedisSettings
 from .sentry import SentrySettings
 from .kadence import KadenceSettings
 from .uvicorn import UvicornSettings

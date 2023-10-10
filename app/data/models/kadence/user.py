@@ -32,3 +32,7 @@ class KadenceUser(BaseModel):
     location_latitude: Optional[float] = Field(alias="locationLatitude")
     location_longitude: Optional[float] = Field(alias="locationLongitude")
     monogram: str = Field(alias="monogram")
+
+    class Config:  # pylint: disable=missing-class-docstring
+        use_enum_values = True
+        validate_default = True

@@ -1,22 +1,19 @@
 """Kadence Router Configuration"""
 from datetime import datetime
 from http import HTTPStatus
+from typing import List, Optional
 
-import requests
 from fastapi import APIRouter, Depends, HTTPException
+from server.factories.kadence.get_user_bookings_factory import (
+    get_kadence_user_bookings_factory,
+)
 from server.factories.kadence.get_user_factory import get_kadence_user_factory
 from server.factories.kadence.fresh_token_factory import (
     kadence_fresh_token_service_factory,
 )
-from domain.entities import AuthToken, User
+from domain.entities import AuthToken, User, Booking
 
-# from server.presentation.services.kadence.get_fresh_token import GetFreshKadenceTokenService
-from data.models import KadenceAuthToken
 from server.factories.kadence.auth_factory import kadence_auth_controller_factory
-
-# from server.factories.kadence.get_user_bookings_factory import (
-#     kadence_get_user_bookings_factory,
-# )
 
 from config.kadence import KadenceSettings
 
@@ -26,11 +23,11 @@ kadence_router = APIRouter(
 )
 
 kadence_settings = KadenceSettings()
-auth_controller = kadence_auth_controller_factory()
-get_user_service = get_kadence_user_factory()
-# bookings_controller = kadence_get_user_bookings_factory()
 
 fresh_token_service = kadence_fresh_token_service_factory()
+auth_controller = kadence_auth_controller_factory()
+get_user_service = get_kadence_user_factory()
+bookings_controller = get_kadence_user_bookings_factory()
 
 
 @kadence_router.get("/fresh-token", status_code=HTTPStatus.OK)
@@ -58,26 +55,29 @@ async def get_user(
     return user
 
 
-# @kadence_router.get(
-#     "/user/bookings/{user_id}",
-#     status_code=HTTPStatus.OK,
-# )
-# async def get_user_bookings(
-#     user_id: str,
-#     page: int = 1,
-#     itens_per_page: int = 10,
-#     token: KadenceAuthToken = Depends(auth_controller.handle),
-# ) -> List[Booking]:
-#     print(f"{datetime.now()} - GET /users/{user_id}/bookings")
-#     if token is None or isinstance(token, KadenceAuthToken) is False:
-#         raise HTTPException(
-#             status_code=HTTPStatus.UNAUTHORIZED, detail=token.model_dump()
-#         )
+@kadence_router.get(
+    "/user/bookings/{user_id}",
+    status_code=HTTPStatus.OK,
+)
+async def get_user_bookings(
+    user_id: str,
+    from_date: Optional[datetime] = None,
+    page: Optional[int] = 1,
+    itens_per_page: Optional[int] = 10,
+    token: AuthToken = Depends(auth_controller.handle),
+) -> List[Booking]:
+    print(f"{datetime.now()} - GET /users/{user_id}/bookings")
+    if token is None:
+        raise HTTPException(status_code=HTTPStatus.UNAUTHORIZED)
 
-#     bookings = await bookings_controller.handle(
-#         user_id=user_id, token=token, page=page, itens_per_page=itens_per_page
-#     )
-#     return bookings
+    bookings: List[Booking] = bookings_controller.handle(
+        token=token,
+        user_id=user_id,
+        from_date=from_date,
+        page=page,
+        itens_per_page=itens_per_page,
+    )
+    return bookings
 
 
 # @kadence_router.post(
