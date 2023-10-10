@@ -69,7 +69,7 @@ Linter and static type checking rules can be discussed and reviewed with the ent
 - [ ] Add health check
 - [ ] Add swagger documentation of exceptions and status codes
 - [ ] Create custom exceptions based on FastAPI exceptions (example: UnauthorizedException(HTTPException))
-- [ ] Fix python modules and packages
+- [x] Fix python modules and packages
 
 Kadence:
  - [ ] Build logic to find the booking based on datetime
