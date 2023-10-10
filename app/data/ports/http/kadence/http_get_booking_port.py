@@ -36,8 +36,4 @@ class KadenceGetUserBookingsHttpPort(GetUserBookings):
             token=kdc_token, user_id=user_id, query_params=query_params
         )
 
-        print(
-            "TypeAdapter Bookings",
-            bookings,
-        )
         return [Booking(**data.model_dump()) for data in bookings]

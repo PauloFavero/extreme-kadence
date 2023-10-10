@@ -27,7 +27,6 @@ class GetUserBookingsHttpAdapter(GetUserBookingsHttp):
     ) -> Tuple[List[KadenceBooking], Optional[HydraPagination]]:
         bookings: Dict[str, Any] = response.json()
         pagination = get_hydra_pagination(bookings)
-        print("hydra bookings", bookings.get("hydra:member", []))
         bookings_list = TypeAdapter(List[KadenceBooking]).validate_python(
             bookings.get("hydra:member", [])
         )

@@ -93,15 +93,15 @@ class Booking(BaseModel):
     id: str
     user_id: Optional[str]
     start_date: Optional[datetime]
-    # end_date: Optional[datetime]
-    # status: BookingStatus
-    # checked_in_date: Optional[datetime]
-    # checked_in_source: CheckInOutSource
-    # check_in_method: Optional[CheckInOutMethod]
+    end_date: Optional[datetime]
+    status: BookingStatus
+    checked_in_date: Optional[datetime]
+    checked_in_source: CheckInOutSource
+    check_in_method: Optional[CheckInOutMethod]
 
-    # check_out_source: CheckInOutSource
-    # check_out_method: Optional[CheckInOutMethod]
-    # checked_out_date: Optional[datetime]
+    check_out_source: CheckInOutSource
+    check_out_method: Optional[CheckInOutMethod]
+    checked_out_date: Optional[datetime]
 
-    # cancellation_reason: Optional[CancellationReason]
-    # cancelled_date: Optional[datetime]
+    cancellation_reason: Optional[CancellationReason]
+    cancelled_date: Optional[datetime]

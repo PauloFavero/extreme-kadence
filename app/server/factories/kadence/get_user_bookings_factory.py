@@ -1,11 +1,15 @@
-from infra.adapters.http.kadence.get_user_bookings import GetUserBookingsRequester
-from server.presentation.services.kadence.booking import KadenceGetUserBookingsService
-from config.server import environment
+from config import environment
 
-kadence_config = environment.kadence
+from data.ports import KadenceGetUserBookingsHttpPort
+from infra.adapters import GetUserBookingsHttpAdapter
+from server.presentation.services.kadence.get_user_bookings import (
+    GetKadenceUserBookingsService,
+)
 
 
-def kadence_get_user_bookings_factory() -> KadenceGetUserBookingsService:
-    """Factory to get user bookings from Kadence API"""
-    requester = GetUserBookingsRequester(kadence_config)
-    return KadenceGetUserBookingsService(requester=requester, config=kadence_config)
+def get_kadence_user_bookings_factory() -> GetKadenceUserBookingsService:
+    """Factory to get kadence user"""
+    kdc_cfg = environment.kadence
+    http_adapter = GetUserBookingsHttpAdapter(config=kdc_cfg)
+    http_port = KadenceGetUserBookingsHttpPort(adapter=http_adapter)
+    return GetKadenceUserBookingsService(port=http_port)
