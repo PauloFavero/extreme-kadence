@@ -2,7 +2,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class CheckInOutMethod(Enum):
@@ -61,11 +61,11 @@ class BookingStatus(Enum):
     """Booking status."""
 
     BOOKED = "booked"
-    CHECKEDIN = "checkedIn"
-    CHECKEDOUT = "checkedOut"
+    CHECKED_IN = "checkedIn"
+    CHECKED_OUT = "checkedOut"
     COMPLETED = "completed"
     CANCELLED = "cancelled"
-    NOCHECKIN = "noCheckIn"
+    NO_CHECKIN = "noCheckIn"
 
 
 class CancellationReason(Enum):
@@ -105,3 +105,7 @@ class Booking(BaseModel):
 
     cancellation_reason: Optional[CancellationReason]
     cancelled_date: Optional[datetime]
+
+    class Config:  # pylint: disable=missing-class-docstring
+        use_enum_values = True
+        validate_default = True

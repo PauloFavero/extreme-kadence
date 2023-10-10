@@ -53,7 +53,9 @@ class GetUserBookingsHttpAdapter(GetUserBookingsHttp):
         response = self.__session.get(
             url=f"{self.__config.base_uri}{self.__config.api_version}/users/{user_id}/bookings",
             headers={"Authorization": f"{token.token_type} {token.access_token}"},
-            params=query_params.model_dump(by_alias=True) if query_params else None,
+            params=query_params.model_dump(by_alias=True, exclude_none=True)
+            if query_params
+            else None,
         )
 
         bookings_list, pagination = self.__handle_bookings_response(response)
