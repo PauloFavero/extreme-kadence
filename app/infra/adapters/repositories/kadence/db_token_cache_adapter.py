@@ -3,7 +3,7 @@ from typing import Optional
 
 from data.protocols import CacheTokenRepo, GetCachedTokenRepo
 from data.models import KadenceAuthToken
-from infra.databases.redis import RedisSingleton
+from infra.databases.redisCache import RedisSingleton
 
 
 class DdKadenceTokenCacheRepository(GetCachedTokenRepo, CacheTokenRepo):
